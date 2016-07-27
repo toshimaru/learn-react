@@ -33,13 +33,22 @@ var CommentForm = React.createClass({
 });
 
 var Comment = React.createClass({
+  md: new Remarkable(),
+
+  rawMarkup: function() {
+    var rawMarkup = this.md.render(this.props.children.toString());
+    return { __html: rawMarkup };
+  },
+
   render: function() {
+    var md = new Remarkable();
+
     return (
       <div className="comment">
         <h2 className="commentAuthor">
           {this.props.author}
         </h2>
-        {this.props.children}
+        <span dangerouslySetInnerHTML={this.rawMarkup()} />
       </div>
     );
   }
